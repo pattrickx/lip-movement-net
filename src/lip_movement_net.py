@@ -42,7 +42,7 @@ from progressbar import ETA, Percentage, RotatingMarker
 
 import os
 import numpy as np
-from scipy.misc import imresize
+#from scipy.misc import imresize
 
 import cv2
 import dlib
@@ -464,7 +464,10 @@ def test_video(video_path, shape_predictor_file, model):
         frame_names = sorted(os.listdir(video_path))
         for frame_name in frame_names:
             img = cv2.imread(os.path.join(video_path, frame_name))
-            img = imresize(img, (256, 320))
+            #img = imresize(img, (256, 320))
+            img = cv2.resize(src=img,
+                       dsize=(256, 320),
+                       interpolation=cv2.INTER_CUBIC)
             frames.append(img)
     else:
         cap = cv2.VideoCapture(video_path)
@@ -472,7 +475,10 @@ def test_video(video_path, shape_predictor_file, model):
             ret, img = cap.read()
             if not ret:
                 break
-            img = imresize(img, (256, 320))
+            #img = imresize(img, (256, 320))
+            img = cv2.resize(src=img,
+                       dsize=(256, 320),
+                       interpolation=cv2.INTER_CUBIC)
             frames.append(img)
 
     print('Fetched ' + str(len(frames)) + ' frames from the video.')
